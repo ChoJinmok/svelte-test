@@ -1,0 +1,58 @@
+module.exports = {
+  env: {
+    browser: true,
+    es2021: true,
+  },
+  parser: '@typescript-eslint/parser',
+  plugins: [
+    'svelte3',
+    '@typescript-eslint',
+  ],
+  extends: [
+    'airbnb-base',
+    'airbnb-typescript/base',
+    'eslint:recommended',
+    'plugin:@typescript-eslint/recommended',
+    // 'plugin:@typescript-eslint/recommended-requiring-type-checking',
+  ],
+  overrides: [
+    {
+      files: ['*.svelte'],
+      processor: 'svelte3/svelte3',
+    },
+  ],
+  parserOptions: {
+    ecmaVersion: 'latest',
+    sourceType: 'module',
+    tsconfigRootDir: __dirname,
+    project: './tsconfig.json',
+    extraFileExtensions: ['.svelte'],
+  },
+  rules: {
+    indent: ['error', 2],
+    'no-trailing-spaces': 'error',
+    curly: 'error',
+    'brace-style': 'error',
+    'no-multi-spaces': 'error',
+    'space-infix-ops': 'error',
+    'space-unary-ops': 'error',
+    'no-whitespace-before-property': 'error',
+    'func-call-spacing': 'error',
+    'space-before-blocks': 'error',
+    'keyword-spacing': ['error', { before: true, after: true }],
+    'comma-spacing': ['error', { before: false, after: true }],
+    'comma-style': ['error', 'last'],
+    'comma-dangle': ['error', 'always-multiline'],
+    'space-in-parens': ['error', 'never'],
+    'block-spacing': 'error',
+    'array-bracket-spacing': ['error', 'never'],
+    'object-curly-spacing': ['error', 'always'],
+    'key-spacing': ['error', { mode: 'strict' }],
+    'arrow-spacing': ['error', { before: true, after: true }],
+    'linebreak-style': 'off',
+    'no-proto': 'off',
+  },
+  settings: {
+    'svelte3/typescript': true,
+  },
+};
