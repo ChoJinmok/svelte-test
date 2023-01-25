@@ -19,6 +19,7 @@ function serve() {
   return {
     writeBundle() {
       if (server) return;
+      // eslint-disable-next-line global-require, @typescript-eslint/no-var-requires
       server = require('child_process').spawn('npm', ['run', 'start', '--', '--dev'], {
         stdio: ['ignore', 'inherit', 'inherit'],
         shell: true,
@@ -40,11 +41,21 @@ export default {
   },
   plugins: [
     svelte({
-      preprocess: sveltePreprocess({ sourceMap: !production }),
+      preprocess: sveltePreprocess({
+        sourceMap: !production,
+        postcss: {
+        // eslint-disable-next-line import/no-extraneous-dependencies, global-require
+          plugins: [require('tailwindcss'), require('autoprefixer')],
+        },
+      }),
       compilerOptions: {
         // enable run-time checks when not in production
         dev: !production,
       },
+      ignoreWarnings: [
+        '@typescript-eslint/no-unsafe-assignment',
+        '@typescript-eslint/no-unsafe-member-access',
+      ],
     }),
     // we'll extract any component CSS out into
     // a separate file - better for performance
