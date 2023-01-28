@@ -32,7 +32,6 @@ module.exports = {
     extraFileExtensions: ['.svelte'],
   },
   rules: {
-
     indent: 'off',
     'no-trailing-spaces': 'off',
     curly: 'error',
