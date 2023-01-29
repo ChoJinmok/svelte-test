@@ -189,6 +189,8 @@ module.exports = {
         ignoreComments: false,
       },
     ],
+
+    'import/no-extraneous-dependencies': ['error', { devDependencies: true }],
   },
   settings: {
     'svelte3/typescript': true,
