@@ -1,42 +1,40 @@
 <script lang="ts">
-  let name = 'world';
-  let age = 85;
+  const name = 'world';
+  let toggle = false;
 
-  // 반응성: 데이터가 바뀌면 화면도 갱신되는 것
-  // 데이터에 새로운 값이 할당되면 그 때 반응성을 가진다고 할 수 있다.
-  // setTimeout(() => {
-  //   name = 'Jinmok';
-  //   age = 31;
-  // }, 3000);
-
-  // 함수를 선언만하고 호출을 해주지 않는다면 반응성을 가진다고 할 수 없다.
-  // -> Svelte가 반응성이 없다고 판단해서 컴파일에 반영되지 않는다.
-  function assign() {
-    name = 'Heropy';
-    age = 31;
+  function handleToggleButtonClick() {
+    toggle = !toggle;
   }
+
+// svelte의 특수문자
+  // - `#`: 시작
+  // - `:`: 중간
+  // - `/`: 끝
+  // if문 외 each, await 구문도 모두 동일함
 </script>
 
-<h1 class="text-red-600">Hello {name}!</h1>
-<!-- age < 85 ? 'text-blue' : '' => text-blue={age < 85} -->
-<h2 class:text-blue-600={age < 85}>{age}</h2>
-<img
-  alt={name}
-  src="" />
+<!-- if 문 -->
+<section>
+  <button on:click={handleToggleButtonClick}>
+    Toggle
+  </button>
+  {#if toggle}
+    <h1>Hello {name}!</h1>
+  {/if}
+</section>
 
-// 단방향 바인딩
-<input
-  type="text"
-  value={name} />
+<!-- if - else 문 -->
+<section>
+  <button on:click={handleToggleButtonClick}>
+    Toggle
+  </button>
+  {#if toggle}
+    <h1>Hello {name}!</h1>
+  {:else}
+    <h2>No name!</h2>
+  {/if}
+</section>
 
-// 양방향 바인딩
-<input
-  type="text"
-  bind:value={name} />
-
-<button on:click={assign}>Assign</button>
-
-<!-- 기본적으로 svelte의 style은 해당 컴포넌트내에서만 유효함 -->
 <style
   global
   lang="postcss">
