@@ -1,6 +1,5 @@
 <script lang="ts">
-  // eslint-disable-next-line import/prefer-default-export, import/no-mutable-exports
-  export let name: string;
+  import { storeName } from './store';
 </script>
 
-<div>Child {name}</div>
+<div>Child {$storeName}</div>
