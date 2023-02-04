@@ -1,25 +1,53 @@
 <script lang="ts">
-  import { storeName } from './store';
+  import { writable } from 'svelte/store';
 
-  import Parent from './Parent.svelte';
+  import Todo from './Todo.svelte';
 
-  // console.log(storeName); -> store객체는 set(할당), subscribe(구독), update(수정) 기능이 있다.
-  // console.log($storeName); -> store 객체를 실제로 사용하려면 앞쪽에 `$`넣어줘야한다.
-  // set, update, subscribe 메서드를 사용해 구현하는 대신, 간단하게 $ 표시를 사용하는 것을 Auto-subscription(자동 구독)이라고 한다.
+  let title = '';
+  const todos = writable<{ id: number, title: string }[]>([]);
+  let id = 0;
 
-  const name = 'world';
-  $storeName = name;
-// $ 가 붙어있으면 store 객체의 데이터로 보면 된다.
-// 변수명을 정할 때 앞에 $를 붙이면 예약어 에러가 발생한다.
+  function createTodo() {
+    if (!title.trim()) {
+      title = '';
+
+      return;
+    }
+
+    const newTodos = [...$todos];
+
+    newTodos.push({
+      id,
+      title,
+    });
+
+    // 반응성을 유지시켜야하기 때문에 할당을 다시 해줘야한다.
+    // 자기가 자기 자신에게 재할당하는 것도 재할당으로 인식한다. -> `todos = todos;`로 작성가능함
+    $todos = newTodos;
+
+    title = '';
+    id += 1;
+  }
+
+  function handleTodoTitleKeyDown({ key }: KeyboardEvent) {
+    if (key === 'Enter') {
+      createTodo();
+    }
+
+  // 아래와 같이 요약 가능 -> 단, eslint no-unused-expressions 에러 발생
+    // key === 'Enter' && createTodo();
+  }
 </script>
 
-<h1>Hello {name}!</h1>
-<Parent />
+<input
+  type="text"
+  bind:value={title}
+  on:keydown={handleTodoTitleKeyDown}
+/>
+<button on:click={createTodo}>Create Todo</button>
 
-<style
-  global
-  lang="postcss">
-  @tailwind base;
-  @tailwind components;
-  @tailwind utilities;
-</style>
+{#each $todos as todo}
+  <Todo
+    {todo}
+    {todos} />
+{/each}
