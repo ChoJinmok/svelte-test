@@ -1,25 +1,21 @@
 <script lang="ts">
-  // tick: 데이터가 갱신되고 나서 화면이 바뀌는 반응성을 가질 때까지 잠시 기다릴 수 있게 해줌
-  import { tick } from 'svelte';
-
-  let name = 'world';
-
-  async function handleTitleClick() {
-    name = 'Jinmok';
-
-    // tick함수는 프로미스 객체를 반환한다. -> 비동기로 실행해야한다.
-    await tick();
-
-    const h1 = document.querySelector('h1');
-    // 갱신된 Jinmok이 콘솔창에 입력될 거 같지만 world가 입력된다.
-    // 스벨트는 전체 로직의 최적화를 위해 기본적인 로직들을 모두 실행하고 나면 화면을 갱신하도록 설계되었다.
-    // 화면이 갱신된 이후에 처리해야할 로직이 있다면 tick을 사용하여 화면이 갱신될 때까지 기다린다.
-    console.log(h1.innerText);
-  }
-
-// onMount, onDestroy, beforeUpdate, afterUpdate는 언제 실행되는지가 정해져 있지만 tick은 실행 위치를 내가 정할 수 있다.
+  const href = 'https://heropy.blog';
+  const name = 'Heropy';
+  let value = 'New input value!';
+  const isUpperCase = false;
 </script>
 
-<h1
-  on:click={handleTitleClick}
-  on:keydown={handleTitleClick}>Hello {name}!</h1>
+<!-- <a href="https://heropy.blog">Heropy</a> -->
+<a {href}>{name}</a>
+
+<!-- <input type="text" value="Default value.." /> -->
+<input
+  {value}
+  on:input={(e) => { value = e.target.value; }} />
+// 단방향 바인딩과 양방향 바인딩의 보간법은 조금 다르다.
+<input bind:value />
+
+// 다른 프레임워크나 라이브러리는 보간법 사이에 표현식이나 함수내용을 작성하는 것을 권장하지 않는다. -> 해당하는 내용이 반복될 때 성능적으로 문제가 생길 수 있다.
+// 단, svelte는 컴파일러이기 때문에 전체 코드를 번들하기 전에 평가할 수 있고 그때 충분히 최적화가 가능하다.
+// -> svelte에서 보간법은 코드량을 줄일 수 있는 방법으로 권장되고 있다.
+<div>{isUpperCase ? 'DIV' : 'div'}</div>
