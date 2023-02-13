@@ -1,56 +1,43 @@
 <script lang="ts">
-  let active = false;
-  // const color = 'tomato';
-  // const white = 'white';
-  const color = {
-    t: 'tomato',
-    w: '#fff',
-  };
-  const letterSpacing = 'letter-spacing: 5px;';
+  const active = true;
+  const valid = false;
+  const camelCase = true;
 
-  function handleToggleButtonClick() {
-    active = !active;
+  function multi() {
+    return 'active multiple-class';
   }
 </script>
 
-<button on:click={handleToggleButtonClick}
->
-  Toggle!
-</button>
+<!--
+<div class={active ? 'active' : ''}>
+  3항 연산자 보간
+</div>
+-->
 
-<!-- Svelte에서 `:`앞에 붙는 단어를 지시어(directive)라고 부른다. (e.g. class directive) -->
-<!-- <div class={active ? 'active' : ''}> -->
-<!-- <div class:active={active}> -->
+<!--
+<div class:active={active}>
+  Class 지시어(Directive) 바인딩
+</div>
+-->
+
+<!-- 양방향 데이터 바인딩 단축 형태는 지시어와 데이터가 이름이 같을 때 데이터는 생략가능 -->
 <div class:active>
-  Hello
+  Class 지시어 바인딩 단축 형태
 </div>
 
-<!-- 요소의 스타일 속성 바인딩 -->
-<!-- <h2 style="background-color: {color.t}; color: {color.w}; {letterSpacing}"> -->
-<h2
-  style:background-color={color.t}
-  style:color={color.w}
-  style={letterSpacing}
+<!--
+속성과 다르게 지시어는 여러개 작성 가능하다
+그리고 html에는 dash-case나 snake_case가 많이 사용되기 때문에 회사 컨벤션을 참고
+-->
+<div
+  class:active
+  class:camel-case={camelCase}
+  class:camelCase
+  class:valid
 >
-  Jinmok!
-</h2>
+  다중(Multiple) Class 지시어 바인딩
+</div>
 
-<style>
-  div {
-    width: 120px;
-    height: 200px;
-    background-color: royalblue;
-    border-radius: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: white;
-    font-size: 20px;
-    transition: .4s;
-  }
-
-  .active {
-    width: 250px;
-    background-color: tomato;
-  }
-</style>
+<div class={multi()}>
+  함수 실행
+</div>
