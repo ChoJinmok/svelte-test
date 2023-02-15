@@ -1,36 +1,25 @@
-<div class="box" />
+<script lang="ts">
+  import { tick } from 'svelte';
 
-<style>
-  :global(body) {
-    padding: 60px;
-  }
+  let isShow = false;
+  // Svelte는 this 키워드를 일반요소에 바인딩해서 해당요소를 아래 처럼 직접 검색하지 않고 바로 참조할 수 있다.
+  let inputEl: HTMLInputElement;
 
-  .box {
-    width: 100px;
-    height: 100px;
-    background-color: tomato;
-    border-radius: 10px;
-    animation: zoom .4s infinite alternate;
-  }
+  async function toggle() {
+    isShow = !isShow;
 
-  /* @ At-rules (CSS의 골뱅이 규칙) */
-  /**
-    keyframes도 역시 유효범위를 가진다. -> Global 키워드가 다르게 생김
-  */
-  /* @keyframes zoom {
-    0% {
-      transform: scale(1);
-    }
-    100% {
-      transform: scale(1.5);
-    }
-  } */
-  @keyframes -global-zoom {
-    0% {
-      transform: scale(1);
-    }
-    100% {
-      transform: scale(1.5);
-    }
+    // const inputEl = document.querySelector('input');
+    // querySelector나 querySelectorAll같이 해당 요소를 doc에서 검색하면
+    // 전체 돔을 한번 검색해야하기 때문에 성능이 떨어지게 된다.
+    // -> 검색보다 요소를 직접 바인딩해서 요소 가져오기!
+
+    await tick();
+
+    if (inputEl) inputEl.focus();
   }
-</style>
+</script>
+
+<button on:click={toggle}>Edit!</button>
+{#if isShow}
+  <input bind:this={inputEl} />
+{/if}
