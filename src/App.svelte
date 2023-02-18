@@ -1,35 +1,66 @@
 <script lang="ts">
-  let innerHTML = '';
-  let textContent = 'Hello world!';
+  let count = 0;
+
+  function onIncreaseButtonClick() {
+    count += 1;
+  }
+
+  function onDecreaseButtonClick() {
+    count -= 1;
+  }
 </script>
 
-<!--
-  아래에서 'Hello world!'는 div의 content
-  contenteditable: 말그대로 content를 editor할 수 있게해준다. (보통 블록요소에 사용, div외에도 가능)
-  Svelte에서는 contenteditable 속성이 붙어있는 해당 요소에 바인딩할 수 있는 개념을 두가지 제공한다.
-  -> innerHTML, textContent
- -->
-<div
-  contenteditable
-  bind:innerHTML
-  bind:textContent
-/>
+<button on:click={onIncreaseButtonClick}>증가!</button>
+<button on:click={onDecreaseButtonClick}>감소!</button>
+
+<h2>{count}</h2>
+
+<section>
+  <h2>if</h2>
+  {#if count > 3}
+    <div>count &gt; 3</div>
+  {/if}
+</section>
+
+<section>
+  <h2>if else</h2>
+  {#if count > 3}
+    <div>count &gt; 3</div>
+  {:else}
+    <div>count &lt;= 3</div>
+  {/if}
+</section>
+
+<section>
+  <h2>if else if</h2>
+  {#if count > 3}
+    <div>count &gt; 3</div>
+  {:else if count === 3}
+    <div>count === 3</div>
+  {:else}
+    <div>count &lt; 3</div>
+  {/if}
+</section>
 
 <!--
-  innerHTML: 위에서 입력한 content를 html 구조로 보여준다.
-  textContent: 텍스트 내용 그대로 보여준다.
+  다른 프레임워크에서는 다중 블록을 이용해서 html을 렌더링하는 방법을 추천하지 않는다.
+  가상돔을 사용하는 환경을 최적화하는 것이 중요하기 때문
+  Svelte의 경우 compile된 결과를 사용하기 때문에 다중블록을 최적화 시킨다.
  -->
-<div>{innerHTML}</div>
-<div>{textContent}</div>
-
-<!--
-  html 키워드를 붙인 보간을 사용하면 html로 해석돼서 contenteditable에 작성한 내용 그대로 보여준다.
- -->
-<div>{@html innerHTML}</div>
+<section>
+  <h2>다중 블록</h2>
+  {#if count > 3}
+    {#if count === 5}
+      <div>count === 5</div>
+    {:else}
+      <div>count &gt; 3</div>
+    {/if}
+  {/if}
+</section>
 
 <style>
-  div {
-    border: 1px solid red;
+  section {
+    border: 1px solid orange;
     margin-bottom: 10px;
   }
 </style>
