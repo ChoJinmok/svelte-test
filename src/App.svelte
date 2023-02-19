@@ -1,66 +1,31 @@
 <script lang="ts">
-  let count = 0;
+  // let fruits = ['Apple', 'Banana', 'Cherry', 'Apple', 'Orange'];
+  // => 각각의 아이템으로 key를 주려고 하면 Apple이 중복되므로 고유하지가 않다.
+  // => 보통 id를 만들어준다.
 
-  function onIncreaseButtonClick() {
-    count += 1;
-  }
+  let fruits = [
+    { id: 1, name: 'Apple' },
+    { id: 2, name: 'Banana' },
+    { id: 3, name: 'Cherry' },
+    { id: 4, name: 'Apple' },
+    { id: 5, name: 'Orange' },
+  ];
 
-  function onDecreaseButtonClick() {
-    count -= 1;
+  function deleteFirst() {
+    fruits = fruits.slice(1);
   }
 </script>
 
-<button on:click={onIncreaseButtonClick}>증가!</button>
-<button on:click={onDecreaseButtonClick}>감소!</button>
-
-<h2>{count}</h2>
-
-<section>
-  <h2>if</h2>
-  {#if count > 3}
-    <div>count &gt; 3</div>
-  {/if}
-</section>
-
-<section>
-  <h2>if else</h2>
-  {#if count > 3}
-    <div>count &gt; 3</div>
-  {:else}
-    <div>count &lt;= 3</div>
-  {/if}
-</section>
-
-<section>
-  <h2>if else if</h2>
-  {#if count > 3}
-    <div>count &gt; 3</div>
-  {:else if count === 3}
-    <div>count === 3</div>
-  {:else}
-    <div>count &lt; 3</div>
-  {/if}
-</section>
+<button on:click={deleteFirst}>
+  Delete first fruit!
+</button>
 
 <!--
-  다른 프레임워크에서는 다중 블록을 이용해서 html을 렌더링하는 방법을 추천하지 않는다.
-  가상돔을 사용하는 환경을 최적화하는 것이 중요하기 때문
-  Svelte의 경우 compile된 결과를 사용하기 때문에 다중블록을 최적화 시킨다.
+  key를 통해서 반복되는 아이템에 고유성을 부여할 수 있다.
+  만약 아이템이 기존의 key와 동일하다면 다시 렌더링하지 않는다 -> 화면을 갱신해서 렌더링하는 비용이 감소
  -->
-<section>
-  <h2>다중 블록</h2>
-  {#if count > 3}
-    {#if count === 5}
-      <div>count === 5</div>
-    {:else}
-      <div>count &gt; 3</div>
-    {/if}
-  {/if}
-</section>
-
-<style>
-  section {
-    border: 1px solid orange;
-    margin-bottom: 10px;
-  }
-</style>
+<ul>
+  {#each fruits as { id, name } (id)}
+    <li>{name}</li>
+  {/each}
+</ul>
