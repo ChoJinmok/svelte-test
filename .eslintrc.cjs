@@ -25,6 +25,8 @@ module.exports = {
         'no-labels': 0,
         'no-restricted-syntax': 0,
         'import/prefer-default-export': 'off',
+        'no-param-reassign': 'off',
+        'no-self-assign': 'off',
 
         'svelte/indent': 'error',
         'svelte/no-trailing-spaces': 'error',
