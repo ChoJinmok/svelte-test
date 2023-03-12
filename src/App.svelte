@@ -1,132 +1,42 @@
 <script lang="ts">
-  const { log } = console;
+  import { onMount } from 'svelte';
 
-  function clickHandler({ currentTarget }: Event) {
-    log(currentTarget);
-  }
+  import Jinmok from './Jinmok.svelte';
+  import Footer from './Footer.svelte';
 
-  function wheelHandler(event: Event) {
-    log(event);
-  }
+  let jinmok;
+
+  onMount(() => {
+    console.log(jinmok);
+  // svelte 내에서는 컴포넌트 내의 특정 데이터 접근을 막고 있다.
+    // 아래에서 에러 발생
+    // console.log(jinmok.title);
+    // 에러르 보면 알 수 있듯이 Svelte의 특별한 요소 `<svelte:options>`의 `접속 허용` 속성인 `access`를 사용하면,
+    // 컴포넌트 내 일부 데이터에 접근할 수 있다.
+    // 이 내용은 `특별한 요소 - options - 접근 허용(access)` 파트에서 자세히...
+  });
 </script>
 
-<section>
-  <!-- 기본 동작 방지 -->
-  <!-- el.addEventListener('click', e => e.preventDefault()) -->
-  <h2>preventDefault</h2>
-  <a
-    href="https://naver.com"
-    target="_blank"
-    on:click|preventDefault={clickHandler}
-  >
-    Naver
-  </a>
-</section>
+<!--
+  아래에서 title은 props지만 html의 속성과 이름이 같다.
+  `title`속성은 html에서 모든 태그(in Body)에 사용 가능한 전역 속성(Global Attribute)이다.
 
-<section>
-  <!-- 최초 실행 후 핸들러 삭제 -->
-  <h2>Once</h2>
-  <a
-    href="https://naver.com"
-    target="_blank"
-    on:click|preventDefault|once={clickHandler}
-  >
-    Naver
-  </a>
-</section>
+  다른 프레임워크 대표적으로 Vue.js(2버전 기준)의 경우 하나의 컴포넌트 내 최상위 요소를 1개만 가질 수 있다.
+  즉, '컴포넌트 = 최상위 요소'가 성립한다.
+  따라서 컴포넌트에 사용하는 Props를 `title`과 같이 html에 존재하는 속성(Attribute) 이름으로 작성하는 경우
+  Props와 HTML 속성이 중복되는 문제가 발생한다.
+  따라서 2개 이상의 단어를 조합해 사용하는(e.g. `my-title`) 커스텀 속성(Custom Attributes)의 사용을 권장
 
-<section>
-  <!-- 이벤트 버블링 방지 -->
-  <!-- el.addEventListener('click', e => e.stopPropagation()) -->
-  <h2>stopPropagation</h2>
-  <div
-    class="parent"
-    on:click={clickHandler}
-    on:keydown={clickHandler}
-  >
-    <div
-      class="child"
-      on:click|stopPropagation={clickHandler}
-      on:keydown|stopPropagation={clickHandler}
-    />
-  </div>
-</section>
+  Svelte의 경우는 하나의 컴포넌트 내 최상위 요소가 여개이기 때문에 '컴포넌트 = 최상위요소'가 성립하지 않아,
+  Props가 HTML 속성의 이름과 중복되는 문제가 발생하지 않는다.
+  따라서 제약없이 Props 이름을 지정할 수 있다.
+ -->
 
-<section>
-  <!-- 캡퍼링에서 핸들러 실행 -->
-  <!-- el.addEventListener('click', e => {}, true) -->
-  <!-- el.addEventListener('click', e => {}, { capture: true }) -->
-  <h2>capture</h2>
-  <div
-    class="parent"
-    on:click|capture={clickHandler}
-    on:keydown|capture={clickHandler}
-  >
-    <div
-      class="child"
-      on:click={clickHandler}
-      on:keydown={clickHandler}
-    />
-  </div>
-</section>
-
-<section>
-  <!-- event의 target과 currentTarget이 일치하는 경우 핸들러 실행 (자기 자신을 명확하게 클릭했냐로 구분) -->
-  <h2>self</h2>
-  <div
-    class="parent"
-    on:click|self={clickHandler}
-    on:keydown|self={clickHandler}
-  >
-    <div class="child" />
-  </div>
-</section>
-
-<section>
-  <!-- 이벤트 처리를 완료하지 않고도 기본 속도로 화면을 스크롤 -->
-  <!-- el.addEventListener('wheel', e => {}, { passive: true }) -->
-  <!-- 로직의 처리와 화면이 처리되는 렌더링 이벤트가 중복되서 처리할 로직이 많으면 화면의 스크롤 속도가 저하된다. -->
-  <!-- 특히 모바일에서 이런 현상이 심하다 -->
-  <!-- passive option을 true로 하면 이벤트 처리가 조금 느려지더라도 화면을 부드럽게 보여준다.(최대 5배 부드럽게) -->
-  <h2>passive</h2>
-  <div
-    class="parent wheel"
-    on:wheel|passive={wheelHandler}
-  >
-    <div class="child" />
-  </div>
-</section>
-
-<style>
-  section {
-    border: 1px solid orange;
-    padding: 10px;
-    margin-bottom: 10px;
-  }
-
-  h2 {
-    margin: 0;
-    margin-bottom: 10px;
-  }
-
-  .parent {
-    width: 160px;
-    height: 120px;
-    background-color: royalblue;
-    padding: 20px;
-  }
-
-  .child {
-    width: 100px;
-    height: 100px;
-    background-color: tomato;
-  }
-
-  .wheel.parent {
-    overflow: auto;
-  }
-
-  .wheel .child {
-    height: 1000px;
-  }
-</style>
+<!--
+    일반요소 바인딩(해당하는 요소와 변수를 연결)과 동일하게 컴포넌트에 적용할 수 있다.
+    그런데 컴포넌트에 바인딩하면 변수(데이터)가 컴포넌트 정보를 가지게된다.(컴포넌트 객체가 됨)
+  -->
+<Jinmok
+  bind:this={jinmok}
+  title="Good~" />
+<Footer />
