@@ -1,52 +1,23 @@
 <script lang="ts">
-  import User from './User.svelte';
+  import Todo from './Todo.svelte';
 
-  const users = [
-    {
-      name: 'Neo',
-      age: 85,
-      email: 'neo@abc.com',
-    }, {
-      name: 'Lewis',
-      age: 30,
-      email: 'lewis@abc.com',
-    }, {
-      name: 'Evan',
-      age: 52,
-    },
+  import type { TodoType } from './types';
+
+  let todos: TodoType[] = [
+    { id: 1, title: 'Breakfast', done: false },
+    { id: 2, title: 'Lunch', done: false },
+    { id: 3, title: 'Dinner', done: false },
   ];
+
+// function deleteTodo(id) {
+  //   todos = todos.filter((todo) => id !== todo.id);
+  // }
 </script>
 
-<section>
-  {#each users as user}
-    <User
-      name={user.name}
-      age={user.age}
-      email={user.email}
-    />
-  {/each}
-</section>
-
-<section>
-  {#each users as { name, age, email }}
-    <User
-      {name}
-      {age}
-      {email}
-    />
-  {/each}
-</section>
-
-<section>
-  {#each users as user}
-    <User {...user} />
-  {/each}
-</section>
-
-<style lang="scss">
-  section {
-    border: 1px solid orange;
-    margin-bottom: 10px;
-    padding: 10px;
-  }
-</style>
+{#each todos as todo, index (todo.id)}
+  <Todo
+    {...todo}
+    {index}
+    bind:todos
+  />
+{/each}
