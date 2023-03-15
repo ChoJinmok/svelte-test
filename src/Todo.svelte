@@ -1,20 +1,17 @@
 <script lang="ts">
-  import type { TodoType } from './types';
+  import { createEventDispatcher } from 'svelte';
 
-  export let title: string;
+  export let id: number;
   export let done: boolean;
-  export let todos: TodoType[];
-  export let index: number;
+  export let title: string;
 
-  // export let deleteTodo: (id: number) => void;
-
-    // function onClick() {
-    //   deleteTodo(id);
-    // }
+  const dispatch = createEventDispatcher();
 
   function deleteTodo() {
-    todos.splice(index, 1);
-    todos = todos;
+    // 두번째 인자로 객체를 넘겨주면 이벤트가 많아졌을 때 좀 더 명확하다.
+    dispatch('deleteMe', {
+      id,
+    });
   }
 </script>
 
