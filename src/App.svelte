@@ -1,29 +1,24 @@
 <script lang="ts">
-  // Getter & Setter
-  // getContext & setContext
+  // module에서 export한 변수를 다음과 같이 받을 수 있다.
+  import Fruit, { count } from './Fruit.svelte';
 
-  import { getContext } from 'svelte';
+  const fruits = [
+    'Apple',
+    'Banana',
+    'Cherry',
+    'Mango',
+    'Orange',
+  ];
 
-  import Heropy from './Heropy.svelte';
-  import Lewis from './Lewis.svelte';
-  import Evan from './Evan.svelte';
-
-  const pocketMoney = getContext('pocketMoney');
+  function handleClick() {
+    console.log(count);
+  }
 </script>
 
-<h1>App({pocketMoney})</h1>
-<div>
-  <Heropy />
-  <Lewis />
-  <Evan />
-</div>
+<button on:click={handleClick}>
+  Total count log!
+</button>
 
-<style lang="scss">
-  h1 {
-    font-size: 50px;
-  }
-
-  div {
-    padding-left: 50px;
-  }
-</style>
+{#each fruits as fruit}
+  <Fruit {fruit} />
+{/each}
