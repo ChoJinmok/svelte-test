@@ -1,21 +1,29 @@
 <script lang="ts">
-  import Parent from './Parent.svelte';
+  // Getter & Setter
+  // getContext & setContext
 
-  // function handler({ detail }: CustomEvent) {
-  //   const event = detail.event as Event;
-  //   console.log(event.currentTarget);
-  // }
+  import { getContext } from 'svelte';
 
-  function handler({ currentTarget }: CustomEvent) {
-    console.log(currentTarget);
-  }
+  import Heropy from './Heropy.svelte';
+  import Lewis from './Lewis.svelte';
+  import Evan from './Evan.svelte';
 
-  function myEventHandler({ detail }: CustomEvent) {
-    console.log(detail.myName);
-  }
+  const pocketMoney = getContext('pocketMoney');
 </script>
 
-<Parent
-  on:click={handler}
-  on:myEvent={myEventHandler}
-/>
+<h1>App({pocketMoney})</h1>
+<div>
+  <Heropy />
+  <Lewis />
+  <Evan />
+</div>
+
+<style lang="scss">
+  h1 {
+    font-size: 50px;
+  }
+
+  div {
+    padding-left: 50px;
+  }
+</style>
