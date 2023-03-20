@@ -1,24 +1,17 @@
 <script lang="ts">
-  // module에서 export한 변수를 다음과 같이 받을 수 있다.
-  import Fruit, { count } from './Fruit.svelte';
+  import AudioPlayer, { stopAll } from './AudioPlayer.svelte';
 
-  const fruits = [
-    'Apple',
-    'Banana',
-    'Cherry',
-    'Mango',
-    'Orange',
+  const audioTracks = [
+    'https://sveltejs.github.io/assets/music/strauss.mp3',
+    'https://sveltejs.github.io/assets/music/holst.mp3',
+    'https://sveltejs.github.io/assets/music/satie.mp3',
   ];
-
-  function handleClick() {
-    console.log(count);
-  }
 </script>
 
-<button on:click={handleClick}>
-  Total count log!
+<button on:click={stopAll}>
+  Stop all!
 </button>
 
-{#each fruits as fruit}
-  <Fruit {fruit} />
+{#each audioTracks as src}
+  <AudioPlayer {src} />
 {/each}
