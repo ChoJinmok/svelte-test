@@ -2,7 +2,7 @@
   context="module"
   lang="ts"
 >
-  const players = new Set<string>();
+  const players = new Set<HTMLAudioElement>();
 
   export function stopAll() {
     players.forEach((player) => player.pause());
