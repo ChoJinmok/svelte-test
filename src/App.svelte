@@ -1,17 +1,22 @@
 <script lang="ts">
-  import AudioPlayer, { stopAll } from './AudioPlayer.svelte';
+  import TextField from './TextField.svelte';
 
-  const audioTracks = [
-    'https://sveltejs.github.io/assets/music/strauss.mp3',
-    'https://sveltejs.github.io/assets/music/holst.mp3',
-    'https://sveltejs.github.io/assets/music/satie.mp3',
-  ];
+  let id = '';
+  let pw = '';
 </script>
 
-<button on:click={stopAll}>
-  Stop all!
-</button>
-
-{#each audioTracks as src}
-  <AudioPlayer {src} />
-{/each}
+<TextField
+  color="yellowgreen"
+  maxlength="10"
+  placeholder="ID!"
+  required
+  type="email"
+  bind:value={id}
+/>
+<TextField
+  color="red"
+  placeholder="Password!"
+  required
+  type="password"
+  bind:value={pw}
+/>
